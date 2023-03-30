@@ -1,0 +1,26 @@
+{
+  "name": "micromarket-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "lint": "eslint src/**/*.js",
+    "prettier": "prettier --write src/**/*.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "16.0.3",
+    "express": "4.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.37.0",
+    "eslint-config-prettier": "8.8.0",
+    "nodemon": "2.0.22",
+    "prettier": "2.8.7",
+    "standart": "6.1.0"
+  }
+}
