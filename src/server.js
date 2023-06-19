@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const { port } = require('./config')
 
 const { routerApi } = require('./routes')
@@ -10,6 +11,8 @@ const app = express()
 // Middlewares
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+app.use(cors())
 
 // Routes
 routerApi(app)

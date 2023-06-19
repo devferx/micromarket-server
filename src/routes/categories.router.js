@@ -17,16 +17,14 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const { nom_cat, desc_cat, img_cat } = req.body
+    const { nom_cat, desc_cat } = req.body
     const categoria = new Categoria({
       nom_cat,
-      desc_cat,
-      img_cat
+      desc_cat
     })
     await categoria.save()
 
     res.status(201).json({
-
       message: 'Created Category',
       data: categoria
     })
