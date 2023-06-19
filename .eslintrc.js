@@ -9,5 +9,8 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest'
   },
-  rules: {}
+  rules: {
+    // camel case disabled
+    camelcase: 'off'
+  }
 }

@@ -6,6 +6,10 @@ const { connectDB } = require('./db/config')
 
 const app = express()
 
+// Middlewares
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
 // Routes
 routerApi(app)
 
