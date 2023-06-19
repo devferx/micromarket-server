@@ -3,14 +3,12 @@ const { Schema, model } = require('mongoose')
 const PedidoSchema = new Schema({
   std_ped: {
     type: String,
-    required: true,
     default: 'Pendiente',
     enum: ['Entregado', 'Pendiente', 'Cancelado']
   },
   fec_ini_ped: {
     type: Date,
-    default: Date.now,
-    required: true
+    default: Date.now
   },
   prov_ped: {
     type: Schema.Types.ObjectId,
