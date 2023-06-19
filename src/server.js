@@ -3,6 +3,7 @@ const { port } = require('./config')
 
 const { routerApi } = require('./routes')
 const { connectDB } = require('./db/config')
+const { boomErrorHandler, errorHandler } = require('./middlewares/error.handler')
 
 const app = express()
 
@@ -12,6 +13,10 @@ app.use(express.urlencoded({ extended: true }))
 
 // Routes
 routerApi(app)
+
+// Error handlers
+app.use(boomErrorHandler)
+app.use(errorHandler)
 
 // Db connection
 connectDB()
