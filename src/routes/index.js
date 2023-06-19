@@ -5,6 +5,7 @@ function routerApi (app) {
   app.use('/api', router)
   router.use('/categories', require('./categories.router'))
   router.use('/unit-measures', require('./unitMeasure.router'))
+  router.use('/products', require('./products.router'))
 }
 
 module.exports = { routerApi }
