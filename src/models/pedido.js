@@ -14,14 +14,18 @@ const PedidoSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Proveedor'
   },
-  prod_ped: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Producto'
-  }],
-  cant_ped: [{
-    type: Number,
-    required: true
-  }]
+  prod_ped: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Producto'
+    }
+  ],
+  cant_ped: [
+    {
+      type: Number,
+      required: true
+    }
+  ]
 })
 
 PedidoSchema.methods.toJSON = function () {

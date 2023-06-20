@@ -15,6 +15,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+// TODO: Agregar imagen
 router.post('/', async (req, res, next) => {
   try {
     const { nom_cat, desc_cat } = req.body

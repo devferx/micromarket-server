@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose')
 
+// TODO: Agregar abreviatura
 const UnidadMedidaSchema = Schema({
   nom_um: {
     type: String,
