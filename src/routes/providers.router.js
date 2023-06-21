@@ -4,18 +4,17 @@ const Proveedor = require('../models/proveedor')
 const router = Router()
 
 router.get('/', async (req, res) => {
-  const proveedores = await Proveedor.find().sort({ nom_prov: 1 })
-  res.json({proveedores})
+  const proveedores = await Proveedor.find()
+    .sort({ nom_prov: 1 })
+    .populate('cat_prov')
+  res.json({
+    message: 'Retrieved Providers',
+    data: proveedores
+  })
 })
 
 router.post('/', async (req, res) => {
-  const {
-    nit_prov,
-    nom_prov,
-    dir_prov,
-    cel_prov,
-    cat_prov
-  } = req.body
+  const { nit_prov, nom_prov, dir_prov, cel_prov, cat_prov } = req.body
   const createdProvider = new Proveedor({
     nit_prov,
     nom_prov,
@@ -35,7 +34,9 @@ router.put('/:id', async (req, res) => {
   const { id } = req.params
   const data = req.body
 
-  const updatedProvider = await Proveedor.findByIdAndUpdate(id, data, { new: true })
+  const updatedProvider = await Proveedor.findByIdAndUpdate(id, data, {
+    new: true
+  })
 
   res.json({
     message: 'Provider updated',
