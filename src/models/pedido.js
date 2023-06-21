@@ -25,6 +25,12 @@ const PedidoSchema = new Schema({
       type: Number,
       required: true
     }
+  ],
+  entr_prod_ped: [
+    {
+      type: Boolean,
+      default: false
+    }
   ]
 })
 

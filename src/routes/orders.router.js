@@ -6,17 +6,45 @@ const router = Router()
 
 router.get('/', async (req, res) => {
   const ordersRetrived = await Order.find()
+    .populate('prov_ped', 'nom_prov cel_prov')
+    .populate('prod_ped', 'nom_prod precio_comp_prod img_prod')
+
+  const orders = ordersRetrived.map((order) => {
+    const products = order.prod_ped.map((product, index) => ({
+      ...product._doc,
+      quantity: order.cant_ped[index],
+      delivered: order.entr_prod_ped[index]
+    }))
+
+    // eslint-disable-next-line no-unused-vars
+    const { cant_ped, entr_prod_ped, __v, ...data } = order._doc
+
+    return {
+      ...data,
+      prod_ped: products
+    }
+  })
 
   res.json({
     message: 'Orders retrived',
-    data: ordersRetrived
+    data: orders
   })
 })
 
 router.post('/', async (req, res) => {
-  const data = req.body
+  const { provider: prov_ped, products } = req.body
 
-  const createdOrder = new Order(data)
+  const prod_ped = products.map((product) => product._id)
+  const cant_ped = products.map((product) => product.quantity)
+  const entr_prod_ped = products.map(() => false)
+
+  const createdOrder = new Order({
+    prov_ped,
+    prod_ped,
+    cant_ped,
+    entr_prod_ped
+  })
+
   await createdOrder.save()
 
   res.json({
