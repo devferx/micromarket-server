@@ -6,8 +6,15 @@ const router = Router()
 
 router.get('/', async (req, res) => {
   // query
-  const { limit = 20, skip = 0 } = req.query
-  const products = await Product.find()
+  const { limit = 20, skip = 0, cat } = req.query
+
+  const query = {}
+
+  if (cat) {
+    query.cat_prod = cat
+  }
+
+  const products = await Product.find(query)
     .limit(Number(limit))
     .skip(Number(skip))
     .sort('nom_prod')
