@@ -1,16 +1,15 @@
 const { Schema, model } = require('mongoose')
 
 const CategoriaSchema = Schema({
-  'nom_cat': {
+  nom_cat: {
     type: String,
     required: [true, 'El nombre es obligatorio']
   },
-  'desc_cat': {
+  desc_cat: {
     type: String,
     required: [true, 'La descripción es obligatoria']
-
   },
-  'img_cat': {
+  img_cat: {
     type: String,
     required: false
   }
@@ -23,4 +22,3 @@ CategoriaSchema.methods.toJSON = function () {
 }
 
 module.exports = model('Categoria', CategoriaSchema)
-
