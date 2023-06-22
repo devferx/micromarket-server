@@ -36,6 +36,7 @@ router.post('/', async (req, res, next) => {
     stock_prod,
     img_prod,
     cat_prod,
+    unid_prod,
     um_prod
   } = req.body
 
@@ -47,6 +48,7 @@ router.post('/', async (req, res, next) => {
     stock_prod,
     img_prod,
     cat_prod,
+    unid_prod,
     um_prod
   })
 
