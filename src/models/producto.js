@@ -31,6 +31,10 @@ const ProductoSchema = Schema({
     ref: 'Categoria',
     required: [true, 'La categoría es obligatoria']
   },
+  unid_prod: {
+    type: Number,
+    required: [true, 'La unidad del producto es obligatoria']
+  },
   um_prod: {
     type: Schema.Types.ObjectId,
     ref: 'UnidadMedida',
