@@ -15,10 +15,10 @@ const ProductoSchema = Schema({
     type: Number,
     required: [true, 'El precio del producto es obligatorio']
   },
-  precio_comp_prod: {
-    type: Number,
-    required: [true, 'El precio de compra del producto es obligatorio']
-  },
+  // precio_comp_prod: {
+  //   type: Number,
+  //   required: [true, 'El precio de compra del producto es obligatorio']
+  // },
   stock_prod: {
     type: Number,
     required: [true, 'El stock del producto es obligatorio']
@@ -32,9 +32,9 @@ const ProductoSchema = Schema({
     required: [true, 'La categoría es obligatoria']
   },
   um_prod: {
-    type: Schema.Types.ObjectId,
-    ref: 'UnidadMedida',
-    required: [true, 'La unidad de medida es obligatoria']
+    type: String,
+    // ref: 'UnidadMedida',
+    // required: [true, 'La unidad de medida es obligatoria']
   }
 })
 
