@@ -236,4 +236,5 @@ $RECYCLE.BIN/
 
 
 data/
+src/uploads/
 # End of https://www.toptal.com/developers/gitignore/api/node,visualstudiocode,windows,linux,macos

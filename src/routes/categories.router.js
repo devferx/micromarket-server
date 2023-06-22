@@ -1,9 +1,12 @@
 const express = require('express')
 const boom = require('@hapi/boom')
+const multer = require('multer')
+const fs = require('fs')
 
 const Categoria = require('../models/categoria')
 
 const router = express.Router()
+const upload = multer({ dest: 'src/uploads/' })
 
 router.get('/', async (req, res, next) => {
   try {
@@ -15,13 +18,18 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-// TODO: Agregar imagen
-router.post('/', async (req, res, next) => {
+router.post('/', upload.single('img_cat'), async (req, res, next) => {
   try {
     const { nom_cat, desc_cat } = req.body
+
+    const imgUrl = req.file
+      ? `/uploads/${req.file.filename}`
+      : 'https://picsum.photos/300/300'
+
     const categoria = new Categoria({
       nom_cat,
-      desc_cat
+      desc_cat,
+      img_cat: imgUrl
     })
     await categoria.save()
 
@@ -35,9 +43,25 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.put('/:id', async (req, res, next) => {
+// update category
+router.put('/:id', upload.single('img_cat'), async (req, res, next) => {
   const { id } = req.params
   const data = req.body
+
+  if (req.file) {
+    // delete prev image
+    const prevCategory = await Categoria.findById(id)
+    if (
+      prevCategory &&
+      prevCategory.img_cat &&
+      prevCategory.img_cat.startsWith('/uploads')
+    ) {
+      const imgPath = `src${prevCategory.img_cat}`
+      fs.unlinkSync(imgPath)
+    }
+
+    data.img_cat = `/uploads/${req.file.filename}`
+  }
 
   try {
     const updatedCategory = await Categoria.findByIdAndUpdate(id, data, {
@@ -58,7 +82,16 @@ router.delete('/:id', async (req, res, next) => {
   try {
     const { id } = req.params
 
-    await Categoria.findByIdAndDelete(id)
+    const deletedCateogory = await Categoria.findByIdAndDelete(id)
+
+    // delete image from uploads folder
+    if (
+      deletedCateogory.img_cat &&
+      deletedCateogory.img_cat.startsWith('/uploads')
+    ) {
+      const imgPath = `src${deletedCateogory.img_cat}`
+      fs.unlinkSync(imgPath)
+    }
 
     res.json({
       message: 'Deleted Category',
