@@ -8,6 +8,7 @@ router.get('/', async (req, res) => {
   const ordersRetrived = await Order.find()
     .populate('prov_ped', 'nom_prov cel_prov')
     .populate('prod_ped', 'nom_prod precio_comp_prod img_prod')
+    .sort({ fec_ini_ped: -1 })
 
   const orders = ordersRetrived.map((order) => {
     const products = order.prod_ped.map((product, index) => ({
