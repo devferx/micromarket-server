@@ -20,7 +20,15 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', upload.single('img_cat'), async (req, res, next) => {
   try {
-    const { nom_cat, desc_cat } = req.body
+    let { nom_cat, desc_cat } = req.body
+
+    nom_cat = nom_cat.trim().toLowerCase()
+    nom_cat = nom_cat.charAt(0).toUpperCase() + nom_cat.slice(1)
+
+    const categoryExists = await Categoria.findOne({ nom_cat })
+    if (categoryExists) {
+      return next(boom.conflict('Ya existe una categoría con el nombre dado'))
+    }
 
     const imgUrl = req.file
       ? `/uploads/${req.file.filename}`
@@ -47,6 +55,16 @@ router.post('/', upload.single('img_cat'), async (req, res, next) => {
 router.put('/:id', upload.single('img_cat'), async (req, res, next) => {
   const { id } = req.params
   const data = req.body
+
+  if (data.nom_cat) {
+    data.nom_cat = data.nom_cat.trim().toLowerCase()
+    data.nom_cat = data.nom_cat.charAt(0).toUpperCase() + data.nom_cat.slice(1)
+
+    const categoryExists = await Categoria.findOne({ nom_cat: data.nom_cat })
+    if (categoryExists) {
+      return next(boom.conflict('Ya existe una categoría con el nombre dado'))
+    }
+  }
 
   if (req.file) {
     // delete prev image
