@@ -31,6 +31,41 @@ router.get('/', async (req, res) => {
   })
 })
 
+router.get('/:id', async (req, res) => {
+  const { id } = req.params
+
+  const order = await Order.findById(id)
+    .populate('prov_ped')
+    .populate('prod_ped', 'nom_prod precio_comp_prod img_prod')
+
+  if (!order) {
+    return res.status(404).json({
+      message: 'Order not found'
+    })
+  }
+
+  const products = order.prod_ped.map((product, index) => ({
+    ...product._doc,
+    quantity: order.cant_ped[index],
+    delivered: order.entr_prod_ped[index]
+  }))
+
+  // eslint-disable-next-line no-unused-vars
+  const { cant_ped, entr_prod_ped, __, ...data } = order._doc
+
+  res.json({
+    message: 'Order retrived',
+    data: {
+      ...data,
+      prod_ped: products,
+      prec_total_ped: products.reduce(
+        (acc, product) => acc + product.precio_comp_prod * product.quantity,
+        0
+      )
+    }
+  })
+})
+
 router.post('/', async (req, res) => {
   const { provider: prov_ped, products } = req.body
 
